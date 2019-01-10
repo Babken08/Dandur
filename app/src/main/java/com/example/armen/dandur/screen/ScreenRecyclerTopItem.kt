@@ -33,7 +33,7 @@ class ScreenRecyclerTopItem(context: Context): RelativeLayout(context) {
   fun createImgIcon() {
     imgIcon = ImageView(context)
     imgIcon.scaleType = ImageView.ScaleType.CENTER_CROP
-    val param  = RelativeLayout.LayoutParams(32.dp, 32.dp)
+    val param  = RelativeLayout.LayoutParams(24.dp, 24.dp)
     param.addRule(RelativeLayout.CENTER_IN_PARENT)
     imgIcon.layoutParams = param
     this.addView(imgIcon)
