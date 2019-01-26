@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Dandur</string>
+
+    <array name="bottom_bar_titles">
+        <item>funny</item>
+        <item>animals</item>
+        <item>anime</item>
+        <item>music</item>
+        <item>gaming</item>
+        <item>cartoons</item>
+    </array>
+
+    <string name="comment_text">Comment %1$s</string>
 </resources>

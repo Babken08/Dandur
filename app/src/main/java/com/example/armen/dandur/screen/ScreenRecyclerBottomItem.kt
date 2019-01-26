@@ -1,15 +1,18 @@
 package com.example.armen.dandur.screen
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Point
+import android.support.v4.content.ContextCompat
+import android.view.Gravity
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.RelativeLayout
+import android.widget.FrameLayout
+import android.widget.TextView
+import com.example.armen.dandur.R
+import com.example.armen.dandur.util.dp
 
-class ScreenRecyclerBottomItem(context: Context) :RelativeLayout(context) {
-  lateinit var imgIcon: ImageView
+class ScreenRecyclerBottomItem(context: Context) :FrameLayout(context) {
+  lateinit var imgTitle:TextView
   init {
     val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val display = wm.defaultDisplay
@@ -19,18 +22,23 @@ class ScreenRecyclerBottomItem(context: Context) :RelativeLayout(context) {
     val height = size.y
     val param  = ViewGroup.LayoutParams(width/6, ViewGroup.LayoutParams.MATCH_PARENT)
     this.layoutParams = param
-    createImgIcon()
+    createImgTitle()
   }
 
-  fun createImgIcon() {
-    imgIcon = ImageView(context)
-    imgIcon.scaleType = ImageView.ScaleType.CENTER_CROP
-    val param  = RelativeLayout.LayoutParams(24.dp, 24.dp)
-    param.addRule(RelativeLayout.CENTER_IN_PARENT)
-    imgIcon.layoutParams = param
-    this.addView(imgIcon)
+  fun createImgTitle() {
+    imgTitle = TextView(context)
+    val param  = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+    param.gravity = (Gravity.CENTER)
+    imgTitle.layoutParams = param
+    imgTitle.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+    imgTitle.textSize = 10f
+    this.addView(imgTitle)
+  }
+  fun configeItem(drawable:Int, title:String){
+    val img = ContextCompat.getDrawable(context, drawable)
+    img!!.setBounds(0, 0, 24.dp, 24.dp)
+    imgTitle.setCompoundDrawables(null, img, null, null);
+    imgTitle.text = title
   }
 }
 
-private val Int.dp: Int
-  get()=(this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()

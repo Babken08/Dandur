@@ -19,24 +19,17 @@ import com.example.armen.dandur.R;
 import com.example.armen.dandur.adapters.MyVideosAdapter;
 import com.example.armen.dandur.adapters.RecyclerAdapterBottom;
 import com.example.armen.dandur.adapters.RecyclerAdapterTop;
-import com.example.armen.dandur.adapters.ResyclerAdapter;
 import com.example.armen.dandur.http.APIService;
 import com.example.armen.dandur.http.APIUtil;
 import com.example.armen.dandur.util.DandurConstants;
-import com.google.gson.Gson;
+import com.example.armen.dandur.util.DandurUtilsKt;
 import com.google.gson.internal.LinkedTreeMap;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements RecyclerAdapterBottom.RecyclerAdapterBottomDelegate {
 
     private static String TAG = HomeActivity.class.getName();
     private RecyclerView recyclerViewTop;
@@ -45,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private AAH_CustomRecyclerView recyclerView;
     private APIService mApiService;
 //    private ResyclerAdapter adapter;
-    private MyVideosAdapter adapterTest;
+    private MyVideosAdapter adapter;
 
     private FrameLayout layoutProgress;
 
@@ -59,16 +52,16 @@ public class HomeActivity extends AppCompatActivity {
         layoutProgress = findViewById(R.id.progress_layout);
         mApiService = APIUtil.Companion.getAPIService();
         listData  = new ArrayList<>();
-        getData();
+        getData(DandurConstants.Companion.getCategories_Funny());
 
         createBottmTopRecycler();
         recyclerView = findViewById(R.id.recycler_middle);
 
-        adapterTest = new MyVideosAdapter();
+        adapter = new MyVideosAdapter(this);
         final RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setActivity(this);
-        recyclerView.setAdapter(adapterTest);
+        recyclerView.setAdapter(adapter);
         recyclerView.setPlayOnlyFirstVideo(true);
         recyclerView.setVisiblePercent(50);
 
@@ -83,14 +76,15 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewTop.setAdapter(topAdapter);
 
         RecyclerAdapterBottom bottomAdapter = new RecyclerAdapterBottom(this);
+        bottomAdapter.setDelegate(this);
         RecyclerView.LayoutManager bottomLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         recyclerViewBottom.setLayoutManager(bottomLayoutManager);
         recyclerViewBottom.setAdapter(bottomAdapter);
     }
 
-    private void getData() {
-        mApiService.getPostsInCategory(DandurConstants.Companion.getCategories_Animal_pets()).enqueue(new Callback<Object>() {
+    private void getData(String categories) {
+        mApiService.getPostsInCategory(categories).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
 
@@ -98,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
                     Log.i(TAG, "response isSuccessful");
                     if(response.body() != null) {
                         listData = (ArrayList<LinkedTreeMap<String, Object>>) response.body();
-                        adapterTest.setList(listData);
+                        adapter.setList(listData);
                         recyclerView.smoothScrollBy(0,1);
                         recyclerView.smoothScrollBy(0,-1);
                     }
@@ -128,12 +122,44 @@ public class HomeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         recyclerView.clearFocus();
-        adapterTest.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         recyclerView.playAvailableVideos(0);
+    }
+
+    @Override
+    public void bottomBarItemClick(int position) {
+        progressVisiable(true);
+        switch (position){
+            case 0:{
+                getData(DandurConstants.Companion.getCategories_Funny());
+                break;
+            }
+            case 1:{
+                getData(DandurConstants.Companion.getCategories_Animal_pets());
+                break;
+            }
+            case 2:{
+                getData(DandurConstants.Companion.getCategories_Anime());
+                break;
+            }
+            case 3:{
+                getData(DandurConstants.Companion.getCategories_Music());
+                break;
+            }
+            case 4:{
+                getData(DandurConstants.Companion.getCategories_Gaming());
+                break;
+            }
+            case 5:{
+                getData(DandurConstants.Companion.getCategories_Cartoons());
+                break;
+            }
+
+        }
     }
 }

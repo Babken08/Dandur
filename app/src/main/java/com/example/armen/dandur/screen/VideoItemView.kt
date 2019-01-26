@@ -3,6 +3,7 @@ package com.example.armen.dandur.screen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.view.Gravity
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.allattentionhere.autoplayvideos.AAH_VideoImage
 import com.example.armen.dandur.R
+import com.google.gson.internal.LinkedTreeMap
 
 class VideoItemView(context:Context) : LinearLayout(context) {
 
@@ -63,7 +65,7 @@ class VideoItemView(context:Context) : LinearLayout(context) {
     ////video items
     private fun createVideoLayout() {
         videoLayout = FrameLayout(context)
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250.dp)
+        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
         videoLayout.layoutParams = params
 
@@ -74,16 +76,16 @@ class VideoItemView(context:Context) : LinearLayout(context) {
     }
     private fun createVideoView() {
         videoView = AAH_VideoImage(context)
-        val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        videoView.minimumHeight = 200.dp
+        val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
         params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
         videoLayout.addView(videoView)
     }
     private fun createVolumeImage() {
         volumeImg = ImageView(context)
         val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        params.topMargin = 218.dp
         params.leftMargin = 8.dp
-        params.gravity = Gravity.RIGHT
+        params.gravity = (Gravity.END or Gravity.BOTTOM)
         volumeImg.layoutParams = params
         volumeImg.setImageResource(R.drawable.ic_volume_mute_black_24dp)
         videoLayout.addView(volumeImg)
@@ -91,6 +93,7 @@ class VideoItemView(context:Context) : LinearLayout(context) {
     private fun createVideoProgress() {
         videoPreogress = ProgressBar(context)
         val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        params.gravity = Gravity.CENTER
         videoPreogress.layoutParams = params
         videoPreogress.visibility = View.GONE
         videoLayout.addView(videoPreogress)
@@ -263,6 +266,14 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         divider.layoutParams = params
         divider.setBackgroundResource(R.color.colorBlack)
         this.addView(divider)
+    }
+
+    fun configeItem(item:LinkedTreeMap<String, Any>?) {
+        val titleText  = item?.get("title").toString() //to do
+        title.text = titleText
+
+        val commentCount =  item?.get("comments_count").toString()
+        commentText.text = context.resources.getString(R.string.comment_text, commentCount)
     }
 
 }
