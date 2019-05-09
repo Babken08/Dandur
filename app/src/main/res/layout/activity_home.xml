@@ -5,15 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:id="@+id/main_layout"
     tools:context=".activity.HomeActivity">
 
 
+  <!--app:headerLayout="@layout/nav_header_main"-->
+  <!--app:menu="@menu/activity_main_drawer"-->
+
+
+
+
+  <!--android:layout_height="?actionBarSize">-->
   <android.support.v7.widget.RecyclerView
       android:id="@+id/recycler_top"
       android:layout_width="wrap_content"
       android:layout_height="?actionBarSize">
   </android.support.v7.widget.RecyclerView>
+
+  <View
+      android:id="@+id/divider_top_recycler"
+      android:layout_below="@+id/recycler_top"
+      android:background="@color/colorYellow"
+      android:layout_width="match_parent"
+      android:layout_height="1px">
+  </View>
 
 
   <!--<android.support.v7.widget.RecyclerView-->
@@ -27,14 +42,14 @@
 
   <com.allattentionhere.autoplayvideos.AAH_CustomRecyclerView
       android:id="@+id/recycler_middle"
-      android:layout_below="@+id/recycler_top"
+      android:layout_below="@+id/divider_top_recycler"
       android:layout_above="@+id/recycler_bottom"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
   <FrameLayout
       android:id="@+id/progress_layout"
-      android:layout_below="@+id/recycler_top"
+      android:layout_below="@+id/divider_top_recycler"
       android:layout_above="@+id/recycler_bottom"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
@@ -51,5 +66,14 @@
       android:layout_width="wrap_content"
       android:layout_height="?actionBarSize">
   </android.support.v7.widget.RecyclerView>
+
+
+  <WebView
+      android:visibility="gone"
+      android:id="@+id/web_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+  </WebView>
 
 </RelativeLayout>

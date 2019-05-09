@@ -3,12 +3,38 @@
 
     <array name="bottom_bar_titles">
         <item>funny</item>
-        <item>animals</item>
         <item>anime</item>
         <item>music</item>
         <item>gaming</item>
         <item>cartoons</item>
+        <item>cats</item>
+        <item>dogs</item>
+        <item>dance</item>
+        <item>extreme</item>
+        <item>nsfw</item>
+        <item>art and design</item>
+        <item>nature-and-travel</item>
+        <item>news-and-politics</item>
+        <item>fashion-and-beauty</item>
+        <item>cars</item>
+        <item>science-and-technology</item>
+        <item>sports</item>
+        <item>movies-and-tv</item>
+
     </array>
 
     <string name="comment_text">Comment %1$s</string>
+    <string name="share">Share</string>
+    <string name="comment">Comment</string>
+    <string name="like">Like %d</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="dark0_mode">Dark0 Mode</string>
 </resources>

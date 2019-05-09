@@ -12,12 +12,15 @@ import android.view.ViewGroup
 import android.widget.*
 import com.allattentionhere.autoplayvideos.AAH_VideoImage
 import com.example.armen.dandur.R
+import com.example.armen.dandur.util.DandurConstants
 import com.google.gson.internal.LinkedTreeMap
+import de.hdodenhof.circleimageview.CircleImageView
 
 class VideoItemView(context:Context) : LinearLayout(context) {
 
     lateinit var title:TextView
     lateinit var videoLayout:FrameLayout
+             lateinit var gifImage:ImageView
              lateinit var videoView: AAH_VideoImage
              lateinit var volumeImg:ImageView
              lateinit var videoPreogress:ProgressBar
@@ -26,7 +29,7 @@ class VideoItemView(context:Context) : LinearLayout(context) {
 //             lateinit var img:ImageView
 //             lateinit var txtIMG:TextView
     lateinit var authorLayout: FrameLayout
-             lateinit var authorImg:ImageView
+             lateinit var authorImg:CircleImageView
              lateinit var authorText:TextView
     lateinit var layoutOther:LinearLayout
              lateinit var likeLayout:FrameLayout
@@ -44,6 +47,7 @@ class VideoItemView(context:Context) : LinearLayout(context) {
 
         createTitle()
         createVideoLayout()
+        createGifImage()
         createAuthorLayout()
         createOtherLayout()
         createDivider()
@@ -57,7 +61,11 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         title.layoutParams = params
         title.textSize = 20f
         title.text = "Post"
-        title.setTextColor(R.color.colorBlack)
+        if(DandurConstants.isDarkBackground) {
+            title.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
+        } else {
+            title.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        }
         this.addView(title)
     }
 
@@ -74,9 +82,19 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         createVideoProgress()
         this.addView(videoLayout)
     }
+
+    fun createGifImage() {
+        gifImage = ImageView(context)
+        gifImage.visibility = View.GONE
+        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        gifImage.layoutParams = params
+        params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
+        this.addView(gifImage)
+    }
+
     private fun createVideoView() {
         videoView = AAH_VideoImage(context)
-        videoView.minimumHeight = 200.dp
+//        videoView.minimumHeight = 200.dp
         val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
         params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
         videoLayout.addView(videoView)
@@ -157,12 +175,16 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         this.addView(authorLayout)
     }
     private fun createAuthoeImg() {
-        authorImg = ImageView(context)
+        authorImg = CircleImageView(context)
         val params = FrameLayout.LayoutParams(44.dp, 44.dp)
         params.rightMargin = 5.dp
         authorImg.layoutParams = params
         authorImg.scaleType = ImageView.ScaleType.CENTER_CROP
-        authorImg.setImageResource(R.drawable.ic_account_circle_black_24dp)
+        if(DandurConstants.isDarkBackground) {
+            authorImg.setImageResource(R.drawable.ic_account_circle_white_24dp)
+        } else {
+            authorImg.setImageResource(R.drawable.ic_account_circle_black_24dp)
+        }
         authorLayout.addView(authorImg)
     }
     @SuppressLint("ResourceAsColor")
@@ -172,7 +194,11 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         params.leftMargin = 54.dp
         params.gravity = Gravity.CENTER_VERTICAL
         authorText.layoutParams = params
-        authorText.setTextColor(R.color.colorBlack)
+        if(DandurConstants.isDarkBackground){
+            authorText.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
+        }else{
+            authorText.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        }
         authorText.text = "create by my"
         authorLayout.addView(authorText)
 
@@ -188,7 +214,7 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         layoutOther.orientation = LinearLayout.HORIZONTAL
 
         createLikeLayout()
-        createCommentLayout()
+//        createCommentLayout()
         createSharelayout()
         this.addView(layoutOther)
     }
@@ -206,11 +232,18 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
 //        params.gravity = Gravity.CENTER
         likeText.layoutParams = params
-        likeText.text = "Like"
+        likeText.text = context.getString(R.string.like)
         likeText.gravity = Gravity.CENTER_VERTICAL
-        likeText.setTextColor(R.color.colorBlack)
         likeText.compoundDrawablePadding = 10.dp
-        likeText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_thumb_up_black_24dp, 0,0, 0)
+        likeText.setBackgroundResource(R.drawable.share_click_effect)
+
+        if(DandurConstants.isDarkBackground){
+            likeText.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
+            likeText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_white, 0,0, 0)
+        }else{
+            likeText.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+            likeText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_thumb_up_black_24dp, 0,0, 0)
+        }
         likeLayout.addView(likeText)
     }
 
@@ -230,10 +263,16 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         commentText.layoutParams = params
         commentText.compoundDrawablePadding = 10.dp
         commentText.gravity = Gravity.CENTER_VERTICAL
-        commentText.setTextColor(R.color.colorBlack)
-        commentText.text = "Comment"
+        commentText.text = context.getString(R.string.comment)
 
-        commentText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_comment_black_24dp, 0, 0, 0)
+        if(DandurConstants.isDarkBackground){
+            commentText.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
+            commentText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.comment_white, 0, 0, 0)
+        } else {
+            commentText.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+            commentText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_comment_black_24dp, 0, 0, 0)
+
+        }
         commentLayout.addView(commentText)
     }
     private fun createSharelayout() {
@@ -252,28 +291,67 @@ class VideoItemView(context:Context) : LinearLayout(context) {
         shareText.layoutParams = params
         shareText.compoundDrawablePadding = 10.dp
         shareText.gravity = Gravity.CENTER_VERTICAL
-        shareText.setTextColor(R.color.colorBlack)
-        shareText.text = "Share"
-        shareText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_black_24dp, 0, 0, 0)
+        shareText.text = context.getString(R.string.share)
+
+        shareText.setBackgroundResource(R.drawable.share_click_effect)
+
+        if(DandurConstants.isDarkBackground){
+            shareText.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
+            shareText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.share_white, 0, 0, 0)
+        } else {
+            shareText.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+            shareText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_black_24dp, 0, 0, 0)
+        }
+
         shareLayout.addView(shareText)
+
     }
     //// like, comment, share
 
     private fun createDivider() {
         divider = View(context)
-        val params  = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1.dp)
+        val params  = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
         params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
         divider.layoutParams = params
-        divider.setBackgroundResource(R.color.colorBlack)
+        if(DandurConstants.isDarkBackground) {
+            divider.setBackgroundResource(R.color.colorWhite)
+        } else {
+            divider.setBackgroundResource(R.color.colorBlack)
+        }
         this.addView(divider)
     }
 
-    fun configeItem(item:LinkedTreeMap<String, Any>?) {
-        val titleText  = item?.get("title").toString() //to do
-        title.text = titleText
+    fun configeItem(titleText:String?, likecount:Int?, height:Int?, with:Float?) {
+       if(titleText != null) {
+           title.text = titleText
+       }
+        if(likecount != null) {
+           likeText.text = context.resources.getString(R.string.like, likecount)
+        }
+        if(DandurConstants.isMutedVideo){
+            volumeImg.setImageResource(R.drawable.ic_volume_off_black_24dp)
+        } else {
+            volumeImg.setImageResource(R.drawable.ic_volume_mute_black_24dp)
+        }
 
-        val commentCount =  item?.get("comments_count").toString()
-        commentText.text = context.resources.getString(R.string.comment_text, commentCount)
+
+        val params:LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height!!)
+        params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
+        videoLayout.layoutParams = params
+//        if(with != null && height != null) {
+//            val params:LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height)
+//            params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
+//            videoLayout.layoutParams = params
+////            val param = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, height)
+////            param.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
+////            videoView.layoutParams = param
+//        } else {
+//            val params:LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+//            params.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
+//            videoLayout.layoutParams = params
+//        }
+//        val commentCount =  item?.get("comments_count").toString()
+//        commentText.text = context.resources.getString(R.string.comment_text, commentCount)
     }
 
 }

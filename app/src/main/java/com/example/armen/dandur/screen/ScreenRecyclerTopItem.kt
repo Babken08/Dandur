@@ -2,18 +2,11 @@ package com.example.armen.dandur.screen
 
 import android.content.Context
 import android.content.res.Resources
-import android.media.Image
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.R.attr.y
-import android.R.attr.x
 import android.graphics.Point
-import android.view.Display
 import android.view.WindowManager
-
-
-
 
 
 class ScreenRecyclerTopItem(context: Context): RelativeLayout(context) {

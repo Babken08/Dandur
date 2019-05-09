@@ -18,11 +18,11 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,14 +43,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
                     android:layout_margin="8dp"
-                    android:src="@drawable/ic_volume_mute_black_24dp"/>
+                    android:src="@drawable/ic_volume_mute_black_24dp" />
 
                 <ProgressBar
-                    android:visibility="gone"
                     android:id="@+id/video_progress"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
             </FrameLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -196,5 +196,41 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="24dp">
+
+        <TextView
+            android:drawableStart="@drawable/icons8_good"
+            android:gravity="center"
+            android:text="Like"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icons8_good" />
+
+        <TextView
+            android:drawableLeft="@drawable/icons_topic"
+            android:gravity="center"
+            android:text="Comment"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:drawableLeft="@drawable/ic_share_black_24dp"
+            android:gravity="center"
+            android:text="Share"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
 
 </LinearLayout>
